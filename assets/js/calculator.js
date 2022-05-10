@@ -6,20 +6,24 @@
 // 4: if not, just do a normal calculation
 // 5: if so, simulate draws, do the math, get the quantiles
 
-function myFunction() {
+// Step 1: Limit Character Input
+const re = /[0-9\+\-\*\/~]|Backspace/;
+function calc_validate() {
     var e = event || window.event;  // get event object
-    var key = e.keyCode || e.which; // get key cross-browser
+    var key = e.key; //get key
 
-    if (key < 48 || key > 57) { //if it is not a number ascii code
+    // console.log(key)
+    // console.log(re.test(key))
+
+    if (!re.test(key)) {
+
         //Prevent default action, which is inserting character
         if (e.preventDefault) e.preventDefault(); //normal browsers
         e.returnValue = false; //IE
     }
 }
 
-const calc_validate = function() {
-
-}
+// Wrap next steps in event listener tied to = button
 
 const calc_parse = function() {
 
