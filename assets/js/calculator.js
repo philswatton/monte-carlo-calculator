@@ -92,7 +92,7 @@ function parse(tokens) {
     const outQueue = [];
     const opStack = [];
 
-    // Shunting Yard Algo
+    // Simplified Shunting Yard Algo
     for (let i = 0; i < tokens.length; i++) {
         if (isOperator(tokens[i])) {
             if ((opPrecedence(tokens[i]) <= opPrecedence(opStack[0])) && opStack.length > 0) {
@@ -117,10 +117,38 @@ function parse(tokens) {
 
 
 // Step 3: Run monte carlo simulation
-function MCMCeval(RPN) {
 
-    // number of simulations - in future possibly allow user to specify
-    const N = 250000;
+// number of simulations - in future possibly allow user to specify
+const N = 50;//250000;
+
+// Convert ranges to values array
+function norm(range) {
+    // Output array
+    let out = [];
+
+    // Convert range to mean and sd
+    let nums = range.split("~");
+    nums[0] = Number(nums[0]);
+    nums[1] = Number(nums[1]);
+    const mean = (nums[0] + nums[1])/2;
+    const sd = Math.abs(nums[0] - mean);
+
+    console.log(nums);
+    console.log(mean);
+    console.log(sd);
+
+    // Loop to simulate values
+    for (let i = 0; i < N; i++) {
+        out.push(Math.sqrt(-2*Math.log(Math.random())) * Math.cos(2*Math.PI*Math.random())); //box mueller transform
+        out[i] = (out[i] * sd) + mean;
+    }
+
+    return(out);
+}
+
+// MC Evaluation of RPN
+function MCeval(RPN) {
+
     console.log(RPN);
 }
 
