@@ -22,20 +22,23 @@ function calc_limit() {
     }
 }
 
-// Step 2: Validate input
+// Step 2: Validate and parse input, show error if invalid
 // Numbers can be as long as user wants
 // But can't repeat /-+*.~ more than once in a row
 function calc_validate(f) {
     console.log(f);
 }
 
-// Step 3: Use input to run monte carlo simulation
+// Step 3: Run monte carlo simulation
+
+// Step 4: Present simulation results
 
 // equals button calls functions
 document.addEventListener("DOMContentLoaded", function() {
     // console.log('DOM is loaded')
     const equals = document.getElementById("equals");
-    equals.addEventListener('click', calc_validate(
-        getElementById("formula").value
-    ));
-})
+    equals.addEventListener('click', function() {
+        const f = document.getElementById("formula").value;
+        calc_validate(f);
+    });
+});
