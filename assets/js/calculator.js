@@ -1,11 +1,3 @@
-// Steps for calculator:
-
-// 1: take text input from user on pressing equals
-// 2: validate input
-// 3: if valid, establish whether an uncerainty component
-// 4: if not, just do a normal calculation
-// 5: if so, simulate draws, do the math, get the quantiles
-
 // Step 1: Limit Character Input
 const reLimit = /[0-9\+\-\*\/~\.]|Backspace|ArrowLeft|ArrowRight/;
 function calc_limit() {
@@ -17,10 +9,11 @@ function calc_limit() {
 
     if (!reLimit.test(key)) {
         //Prevent default action, which is inserting character
-        if (e.preventDefault) e.preventDefault(); //normal browsers
-        e.returnValue = false; //IE
+        e.preventDefault();
     }
 }
+
+
 
 // Step 2: Validate, tokenise, and parse input, show error if invalid
 
@@ -37,6 +30,7 @@ function calc_validate(f) {
     } else {
         const tokens = tokenise(f);
         console.log(tokens)
+        parse(tokens);
     }
 }
 
@@ -75,25 +69,59 @@ function tokenise(f) {
         }
     }
 
+    // Return
     return(tokens);
 
 }
 
 // Parse:
-// 1) establish constants vs normal distributions
-// 2) preserve operator placements
+// Convert tokens array to RPN (Reverse Polish Notation)
+// Use the shunting yard algorithm (simplified by lack of paranetheses)
+function isOperator(token) {
+    return(/^(\+|\-|\*|\/)$/.test(token));
+}
+function opPrecedence(op) {
+    // console.log(/\*/.test(op));
+    if (/\*|\//.test(op)) {
+        return(1);
+    } else {
+        return(0);
+    }
+}
 function parse(tokens) {
-
-    // Split input to 
 
     // Queue and Stack
     const outQueue = [];
     const opStack = [];
 
+    // Shunting Yard Algo
+    for (let i = 0; i < tokens.length; i++) {
+        if (isOperator(tokens[i])) {
+            if ((opPrecedence(tokens[i]) <= opPrecedence(opStack[0])) && opStack.length > 0) {
+                outQueue.push(opStack.shift());
+            }
+            opStack.unshift(tokens[i]);
+        } else {
+            outQueue.push(tokens[i]);
+        }
+    }
+    let l = opStack.length;
+    if (l > 0) {
+        for (let i = 0; i < l; i++) {
+            outQueue.push(opStack.shift());
+        }
+    }
 
+    // output RPN
+    return(outQueue);
 }
 
+
+
 // Step 3: Run monte carlo simulation
+const N = 250000;
+
+
 
 // Step 4: Present simulation results
 
