@@ -32,27 +32,27 @@
         <h1>Unsure Calculator</h1>
 
         <section class="calculator">
-            <input onKeyDown="calc_validate()" value="">
-            <div>
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button>÷</button>
-                <button>DEL</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button>x</button>
-                <button>~</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>-</button>
-                <button>0</button>
-                <button>.</button>
-                <button>+</button>
-                <button>=</button>
-            </div>
+            <input onKeyDown="calc_limit()" value="" id="formula">
+            <form id="form">
+                <button type="button" >7</button>
+                <button type="button" >8</button>
+                <button type="button" >9</button>
+                <button type="button" >÷</button>
+                <button type="button" >DEL</button>
+                <button type="button" >4</button>
+                <button type="button" >5</button>
+                <button type="button" >6</button>
+                <button type="button" >x</button>
+                <button type="button" >~</button>
+                <button type="button" >1</button>
+                <button type="button" >2</button>
+                <button type="button" >3</button>
+                <button type="button" >-</button>
+                <button type="button" >0</button>
+                <button type="button" >.</button>
+                <button type="button" >+</button>
+                <button type="button" id="equals">=</button>
+            </form>
         </section>
 
         <p>This webpage is a self-learning project aimed at replicating the functionality of <a href="https://filiph.net/">Filip Hráček</a>'s unsure calculator. You can access Filip's project at <a href="https://filiph.github.io/unsure/">this link</a>.</p>

@@ -8,7 +8,7 @@
 
 // Step 1: Limit Character Input
 const re = /[0-9\+\-\*\/~]|Backspace/;
-function calc_validate() {
+function calc_limit() {
     var e = event || window.event;  // get event object
     var key = e.key; //get key
 
@@ -16,15 +16,26 @@ function calc_validate() {
     // console.log(re.test(key))
 
     if (!re.test(key)) {
-
         //Prevent default action, which is inserting character
         if (e.preventDefault) e.preventDefault(); //normal browsers
         e.returnValue = false; //IE
     }
 }
 
-// Wrap next steps in event listener tied to = button
-
-const calc_parse = function() {
-
+// Step 2: Validate input
+// Numbers can be as long as user wants
+// But can't repeat /-+*.~ more than once in a row
+function calc_validate(f) {
+    console.log(f);
 }
+
+// Step 3: Use input to run monte carlo simulation
+
+// equals button calls functions
+document.addEventListener("DOMContentLoaded", function() {
+    // console.log('DOM is loaded')
+    const equals = document.getElementById("equals");
+    equals.addEventListener('click', calc_validate(
+        getElementById("formula").value
+    ));
+})
