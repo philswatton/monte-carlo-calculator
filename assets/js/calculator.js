@@ -1,6 +1,6 @@
 // Step 1: Limit Character Input
 const reLimit = /[0-9\+\-\*\/~\.]|Backspace|ArrowLeft|ArrowRight/;
-function calc_limit() {
+function limit() {
     var e = event || window.event;  // get event object
     var key = e.key; //get key
 
@@ -23,14 +23,12 @@ function calc_limit() {
 // 3) But can't repeat /-+*.~ more than once in a row
 // 4) Can't start with operators
 const reValid = /^\+|^\*|^\/|^\-{2,}|\+{2,}|\-{3,}|\*{2,}|\/{2,}|~{2,}|\.{2,}/;
-function calc_validate(f) {
+function validate(f) {
     test = reValid.test(f)
     if (test) {
         console.log("Formula error");
     } else {
-        const tokens = tokenise(f);
-        console.log(tokens)
-        parse(tokens);
+        return(f);
     }
 }
 
@@ -119,18 +117,35 @@ function parse(tokens) {
 
 
 // Step 3: Run monte carlo simulation
-const N = 250000;
+function MCMCeval(RPN) {
+
+    // number of simulations - in future possibly allow user to specify
+    const N = 250000;
+    console.log(RPN);
+}
 
 
 
 // Step 4: Present simulation results
 
-// Equals button calls functions
+
+// Step 5: Page functionality
+
+// Wrapper function
+function calculate(f) {
+    validf = validate(f);
+    tokens = tokenise(validf);
+    rpn = parse(tokens);
+
+    console.log(rpn);
+}
+
+// Equals button event listener
 document.addEventListener("DOMContentLoaded", function() {
     // console.log('DOM is loaded')
     const equals = document.getElementById("equals");
     equals.addEventListener('click', function() {
         const f = document.getElementById("formula").value;
-        calc_validate(f);
+        calculate(f);
     });
 });
