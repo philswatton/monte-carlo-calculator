@@ -19,9 +19,11 @@ function limit() {
 
 // Validation
 // 1) Numbers can be as long as user wants
-// 2) treat RANGES as numbers
-// 3) But can't repeat /-+*.~ more than once in a row
+// 2) Need to allow arbitrary whitespace
+// 3) Can't have multiple /+*.~ more than once in a row, - twice in a row except at start
 // 4) Can't start with operators
+// 5) Need to add can't end w/ operators
+// 6) Need to add can't repeat ranges, e.g. 5~6~7
 const reValid = /^\+|^\*|^\/|^\-{2,}|\+{2,}|\-{3,}|\*{2,}|\/{2,}|~{2,}|\.{2,}/;
 function validate(f) {
     test = reValid.test(f)
@@ -38,12 +40,8 @@ function tokenise(f) {
     // Output array
     let tokens=[];
 
-    // Temp log
-    console.log(f);
-
     // Split formula into characters
     chars=f.split("");
-    console.log(chars);
 
     // Loop over characters, constructing numbers and operators
     let j = 0; //index for output
@@ -133,9 +131,9 @@ function norm(range) {
     const mean = (nums[0] + nums[1])/2;
     const sd = Math.abs(nums[0] - mean);
 
-    console.log(nums);
-    console.log(mean);
-    console.log(sd);
+    // console.log(nums);
+    // console.log(mean);
+    // console.log(sd);
 
     // Loop to simulate values
     for (let i = 0; i < N; i++) {
@@ -147,14 +145,37 @@ function norm(range) {
 }
 
 // MC Evaluation of RPN
+function isRange(token) {
+    return(/~/.test(token));
+}
 function MCeval(RPN) {
 
-    console.log(RPN);
+
+    l = RPN.length;
+    const rIndex = [];
+    for (let i=0; i<l; i++) {
+        rIndex.push(isRange(RPN[i]));
+    }
+
+    // build standard RPN stack eval first
+    const evalStack = [];
+    for (let i=0; i<l; i++) {
+        if (!isOperator(RPN[i])) {
+            evalStack.push(RPN[i])
+        } else {
+            evalStack.push(eval(evalStack.pop() + RPN[i] + evalStack.pop()));
+        }
+    }
+
+    console.log(evalStack[0]);
+    // console.log(RPN);
+    // console.log(rIndex);
 }
 
 
 
 // Step 4: Present simulation results
+
 
 
 // Step 5: Page functionality
@@ -164,8 +185,9 @@ function calculate(f) {
     validf = validate(f);
     tokens = tokenise(validf);
     rpn = parse(tokens);
+    MCeval(rpn);
 
-    console.log(rpn);
+    // console.log(rpn);
 }
 
 // Equals button event listener
