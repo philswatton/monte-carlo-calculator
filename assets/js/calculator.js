@@ -7,7 +7,7 @@
 // 5: if so, simulate draws, do the math, get the quantiles
 
 // Step 1: Limit Character Input
-const reLimit = /[0-9\+\-\*\/~]|Backspace/;
+const reLimit = /[0-9\+\-\*\/~\.]|Backspace|ArrowLeft|ArrowRight/;
 function calc_limit() {
     var e = event || window.event;  // get event object
     var key = e.key; //get key
@@ -40,14 +40,64 @@ const f3 = "30*4~10.5+10+10~20";
 // const f4 = "20++30";
 // const f5 = "20~~~30";
 
-const reValid = /\+{2,}|\-{2,}|\*{2,}|\/{2,}|~{2,}/;
+const reValid = /^\-{2,}|\+{2,}|\-{3,}|\*{2,}|\/{2,}|~{2,}|\.{2,}/;
 function calc_validate(f) {
     test = reValid.test(f)
     if (test) {
         console.log("Formula error");
     } else {
-        console.log(f);
+        tokenise(f);
     }
+}
+
+function isDigit(char) {return(/\d+\.{0,1}\d*/.test(char));}
+
+function tokenise(f) {
+    // Output array
+    let out=[];
+
+    // Temp log
+    console.log(f);
+
+    // Split formula into characters
+    chars=f.split("");
+    console.log(chars);
+
+    // Loop over characters, constructing numbers and operators
+    let j = 0; //index for output
+    for (let i = 0; i < chars.length; i++) {
+        test = isDigit(chars[i])
+        if (test) {
+            if (out.length == j) {
+                out.push(chars[i]);
+            } else {
+                out[j] = out[j] + chars[i];
+            }
+        } else if (/\./.test(chars[i]) | /~/.test(chars[i])) {
+            out[j] = out[j] + chars[i];
+        } else if ((i == 0 | /\+|\-|\*|\//.test(chars[i-1])) & chars[i] == "-") {
+            out[j] = chars[i];
+        // } else if (/\-/.test(chars[i])) {
+        //     if (chars[i-1] == "-" & chars[i])
+        } else {
+            out[j+1] = chars[i];
+            j+=2;
+        }
+    }
+
+    console.log(out);
+
+}
+
+function parse(f) {
+
+    // Split input to 
+
+    // Queue and Stack
+    const outQueue = [];
+    const opStack = [];
+
+
 }
 
 // function calc_parse(f) {
