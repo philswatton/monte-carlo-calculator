@@ -36,7 +36,8 @@
 
         <form name="calculator" class="calculator" id="calculator">
             <input onKeyDown="limit()" value="15/4~6" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
-            <div id="form">
+            <p id="output"></p>
+            <div class="pad">
                 <button type="button" onclick="press('7')">7</button>
                 <button type="button" onclick="press('8')">8</button>
                 <button type="button" onclick="press('9')">9</button>
@@ -51,15 +52,14 @@
                 <button type="button" onclick="press('2')">2</button>
                 <button type="button" onclick="press('3')">3</button>
                 <button type="button" onclick="press('-')">-</button>
-                <button type="button" onclick="press('0')">0</button>
                 <button type="button" onclick="press('.')">.</button>
+                <span></span>
+                <button type="button" onclick="press('0')">0</button>
+                <span></span>
                 <button type="button" onclick="press('+')">+</button>
                 <button type="button" id="equals">=</button>
             </div>
         </form>
-        <section>
-            <p id="output"></p>
-        </section>
 
         <h2>About</h2>
 
