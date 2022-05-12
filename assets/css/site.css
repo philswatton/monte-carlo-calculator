@@ -10,6 +10,15 @@ main {
     flex-direction: column;
 }
 
+a {
+    color: rgba(2, 63, 144, 1);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 form {
     display: flex;
     flex-direction: column;
