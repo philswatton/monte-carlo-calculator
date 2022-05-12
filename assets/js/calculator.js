@@ -240,6 +240,10 @@ function press(x) {
     document.forms["calculator"]['formula'].value += x;
 }
 
+function del() {
+    document.forms["calculator"]['formula'].value = document.forms["calculator"]['formula'].value.slice(0, -1);
+}
+
 // Wrapper function
 function calculate(f) {
     validf = validate(f);
