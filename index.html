@@ -23,16 +23,19 @@
         <!-- Mathjax -->
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+        <!-- d3.js -->
+        <script src="https://d3js.org/d3.v4.js"></script>
     
-        <!-- Scripts -->
+        <!-- Calculator Script -->
         <script src="assets/js/calculator.js"></script>
 
     </head>
     <body>
         <h1>Unsure Calculator</h1>
 
-        <section class="calculator">
-            <input onKeyDown="limit()" value="22--4.4~6+400-10~20*5" id="formula">
+        <section class="calculator" id="calculator">
+            <input onKeyDown="limit()" value="15/4~6" id="formula"><!--22--4.4~6+400-10~20*5-->
             <form id="form">
                 <button type="button" >7</button>
                 <button type="button" >8</button>
@@ -53,6 +56,9 @@
                 <button type="button" >+</button>
                 <button type="button" id="equals">=</button>
             </form>
+        </section>
+        <section>
+            <p id="output"></p>
         </section>
 
         <p>This webpage is a self-learning project aimed at replicating the functionality of <a href="https://filiph.net/">Filip Hráček</a>'s unsure calculator. You can access Filip's calculator at <a href="https://filiph.github.io/unsure/">this link</a>.</p>

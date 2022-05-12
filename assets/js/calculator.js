@@ -4,7 +4,7 @@ function limit() {
     var e = event || window.event;  // get event object
     var key = e.key; //get key
 
-    // console.log(key)
+    // console.log(key);
     // console.log(re.test(key))
 
     if (!reLimit.test(key)) {
@@ -19,11 +19,11 @@ function limit() {
 
 // Validation
 // 1) Numbers can be as long as user wants
-// 2) Need to allow arbitrary whitespace
-// 3) Can't have multiple /+*.~ more than once in a row, - twice in a row except at start - this is currently done wrong and allows e.g. -+, */, etc
+// TODO: 2) Need to allow arbitrary whitespace
+// TODO: 3) Can't have multiple /+*.~ more than once in a row, - twice in a row except at start - this is currently done wrong and allows e.g. -+, */, etc
 // 4) Can't start with operators
-// 5) Need to add can't end w/ operators
-// 6) Need to add can't repeat ranges, e.g. 5~6~7
+// TODO: 5) Need to add can't end w/ operators
+// TODO: 6) Need to add can't repeat ranges, e.g. 5~6~7
 const reValid = /^\+|^\*|^\/|^\-{2,}|\+{2,}|\-{3,}|\*{2,}|\/{2,}|~{2,}|\.{2,}/;
 function validate(f) {
     test = reValid.test(f)
@@ -115,7 +115,7 @@ function parse(tokens) {
 // Step 3: Run monte carlo simulation
 
 // number of simulations - in future possibly allow user to specify
-const N = 50;//250000;
+const N = 250000;
 
 // Convert ranges to values array
 function norm(range) {
@@ -127,7 +127,7 @@ function norm(range) {
     nums[0] = Number(nums[0]);
     nums[1] = Number(nums[1]);
     const mean = (nums[0] + nums[1])/2;
-    const sd = Math.abs(nums[0] - mean);
+    const sd = Math.abs(nums[0] - mean)/2;
 
     // console.log(nums);
     // console.log(mean);
@@ -138,7 +138,8 @@ function norm(range) {
         out.push(Math.sqrt(-2*Math.log(Math.random())) * Math.cos(2*Math.PI*Math.random())); //box mueller transform
         out[i] = (out[i] * sd) + mean;
     }
-
+    
+    // Return
     return(out);
 }
 
@@ -160,7 +161,6 @@ function MCeval(RPN) {
             rArrays.push(norm(RPN[i]));
         }
     }
-
     
     // Loop over simulation iterations
     let evalStack = [];
@@ -178,7 +178,9 @@ function MCeval(RPN) {
                     evalStack.push(RPN[j]);
                 }
             } else {
-                evalStack.push(eval(evalStack.pop() + RPN[j] + evalStack.pop()));
+                var x = evalStack.pop();
+                var y = evalStack.pop();
+                evalStack.push(eval(y + RPN[j] + x));
             }
         }
         out.push(evalStack[0]);
@@ -192,15 +194,42 @@ function MCeval(RPN) {
     //     }
     // }
 
-    // console.log(evalStack[0]);
-    // console.log(RPN);
-    // console.log(rIndex);
     return(out);
 }
 
 
 
 // Step 4: Present simulation results
+
+// Quantile function: R-8 https://en.wikipedia.org/wiki/Quantile#Estimating_quantiles_from_a_sample
+function quantile(x, p) {
+    const N = x.length;
+    const h = Math.floor((N + (1/3))*p); //removing +1 because 0-indexing
+    // console.log(h);
+
+    vec = x.sort((a,b)=>a-b)
+
+    return(vec[h]);
+}
+
+// Function to build a range from two quantiles
+function makeRange(q1, q2) {
+
+    // Check if the quantiles are equal
+    if (q1 == q2) {
+        return([`${Math.round(q1*10)/10}`, false]);
+    } else {
+        return([`${Math.round(q1*10)/10}~${Math.round(q2*10)/10}`, true])
+    }
+}
+
+// Text output function
+function printResult(str) {
+    document.getElementById('output').innerHTML = str;
+}
+
+
+// TODO: Histogram function
 
 
 
@@ -211,9 +240,19 @@ function calculate(f) {
     validf = validate(f);
     tokens = tokenise(validf);
     rpn = parse(tokens);
-    MCeval(rpn);
+    vector = MCeval(rpn);
 
-    // console.log(rpn);
+    q1 = quantile(vector, 0.025);
+    q2 = quantile(vector, 0.975);
+
+    range = makeRange(q1, q2);
+
+    if (range[1]) {
+        printResult(range[0]);
+    } else {
+        printResult("No ranges included: " + range[0]);
+    }
+
 }
 
 // Equals button event listener
