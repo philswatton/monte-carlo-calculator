@@ -1,9 +1,47 @@
 :root {
     font-family: 'Karla', sans-serif;
+    font-size: 16px;
     color: rgb(0, 0, 0);;
+}
+
+main {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .pad {
     display: grid;
     grid-template-columns: 40px 40px 40px 40px 40px;
+}
+
+#formula {
+    font-family: 'Karla', sans-serif;
+    font-size: 16px;
+    width: 192px;
+}
+
+.center {
+    align-self: center;
+}
+
+/* Media Queries */
+@media screen and (min-width: 920px) {
+    main {
+        left: 25%;
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    main {
+        left: 30%;
+        width: 40%;
+    }
 }
