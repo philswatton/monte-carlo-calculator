@@ -20,7 +20,7 @@ function limit() {
 // Validation
 // 1) Numbers can be as long as user wants
 // 2) Need to allow arbitrary whitespace
-// 3) Can't have multiple /+*.~ more than once in a row, - twice in a row except at start
+// 3) Can't have multiple /+*.~ more than once in a row, - twice in a row except at start - this is currently done wrong and allows e.g. -+, */, etc
 // 4) Can't start with operators
 // 5) Need to add can't end w/ operators
 // 6) Need to add can't repeat ranges, e.g. 5~6~7
@@ -57,8 +57,6 @@ function tokenise(f) {
             tokens[j] = tokens[j] + chars[i];
         } else if ((i == 0 | /\+|\-|\*|\//.test(chars[i-1])) & chars[i] == "-") {
             tokens[j] = chars[i];
-        // } else if (/\-/.test(chars[i])) {
-        //     if (chars[i-1] == "-" & chars[i])
         } else {
             tokens[j+1] = chars[i];
             j+=2;
@@ -150,26 +148,54 @@ function isRange(token) {
 }
 function MCeval(RPN) {
 
-
-    l = RPN.length;
+    // Prepare arrays for MC evaluation
+    const l = RPN.length;
     const rIndex = [];
+    let rArrays = [];
+    let test = false;
     for (let i=0; i<l; i++) {
-        rIndex.push(isRange(RPN[i]));
-    }
-
-    // build standard RPN stack eval first
-    const evalStack = [];
-    for (let i=0; i<l; i++) {
-        if (!isOperator(RPN[i])) {
-            evalStack.push(RPN[i])
-        } else {
-            evalStack.push(eval(evalStack.pop() + RPN[i] + evalStack.pop()));
+        test = isRange(RPN[i]);
+        rIndex.push(test);
+        if (test) {
+            rArrays.push(norm(RPN[i]));
         }
     }
 
-    console.log(evalStack[0]);
+    
+    // Loop over simulation iterations
+    let evalStack = [];
+    let rCount = 0;
+    const out = [];
+    for (let i=0; i<N; i++) {
+        evalStack = []; //refresh eval stack
+        rCount = 0; //refresh range count
+        for (let j=0; j<l; j++) {
+            if (!isOperator(RPN[j])) {
+                if (isRange(RPN[j])) {
+                    evalStack.push(rArrays[rCount][i]);
+                    rCount++;
+                } else {
+                    evalStack.push(RPN[j]);
+                }
+            } else {
+                evalStack.push(eval(evalStack.pop() + RPN[j] + evalStack.pop()));
+            }
+        }
+        out.push(evalStack[0]);
+    }
+
+    // for (let i=0; i<RPN.length; i++) {
+    //     if (!isOperator(RPN[i])) {
+    //         evalStack.push(RPN[i])
+    //     } else {
+    //         evalStack.push(eval(evalStack.pop() + RPN[i] + evalStack.pop()));
+    //     }
+    // }
+
+    // console.log(evalStack[0]);
     // console.log(RPN);
     // console.log(rIndex);
+    return(out);
 }
 
 
