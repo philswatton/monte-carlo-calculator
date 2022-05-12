@@ -115,7 +115,7 @@ function parse(tokens) {
 // Step 3: Run monte carlo simulation
 
 // number of simulations - in future possibly allow user to specify
-const N = 250000;
+const N = 10000;//250000;
 
 // Convert ranges to values array
 function norm(range) {
@@ -234,6 +234,11 @@ function printResult(str) {
 
 
 // Step 5: Page functionality
+
+// Calculator buttons
+function press(x) {
+    document.forms["calculator"]['formula'].value += x;
+}
 
 // Wrapper function
 function calculate(f) {

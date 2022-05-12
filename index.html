@@ -34,29 +34,29 @@
     <body>
         <h1>Unsure Calculator</h1>
 
-        <section class="calculator" id="calculator">
-            <input onKeyDown="limit()" value="15/4~6" id="formula"><!--22--4.4~6+400-10~20*5-->
-            <form id="form">
-                <button type="button" >7</button>
-                <button type="button" >8</button>
-                <button type="button" >9</button>
-                <button type="button" >÷</button>
+        <form name="calculator" class="calculator" id="calculator">
+            <input onKeyDown="limit()" value="15/4~6" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
+            <div id="form">
+                <button type="button" onclick="press('7')">7</button>
+                <button type="button" onclick="press('8')">8</button>
+                <button type="button" onclick="press('9')">9</button>
+                <button type="button" onclick="press('/')">÷</button>
                 <button type="button" >DEL</button>
-                <button type="button" >4</button>
-                <button type="button" >5</button>
-                <button type="button" >6</button>
-                <button type="button" >x</button>
-                <button type="button" >~</button>
-                <button type="button" >1</button>
-                <button type="button" >2</button>
-                <button type="button" >3</button>
-                <button type="button" >-</button>
-                <button type="button" >0</button>
-                <button type="button" >.</button>
-                <button type="button" >+</button>
+                <button type="button" onclick="press('4')">4</button>
+                <button type="button" onclick="press('5')">5</button>
+                <button type="button" onclick="press('6')">6</button>
+                <button type="button" onclick="press('*')">x</button>
+                <button type="button" onclick="press('~')">~</button>
+                <button type="button" onclick="press('1')">1</button>
+                <button type="button" onclick="press('2')">2</button>
+                <button type="button" onclick="press('3')">3</button>
+                <button type="button" onclick="press('-')">-</button>
+                <button type="button" onclick="press('0')">0</button>
+                <button type="button" onclick="press('.')">.</button>
+                <button type="button" onclick="press('+')">+</button>
                 <button type="button" id="equals">=</button>
-            </form>
-        </section>
+            </div>
+        </form>
         <section>
             <p id="output"></p>
         </section>
