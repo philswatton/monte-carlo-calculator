@@ -10,6 +10,10 @@ main {
     flex-direction: column;
 }
 
+h1 {
+    margin: 0px 0px 0px 0px;
+}
+
 a {
     color: rgba(2, 63, 144, 1);
     text-decoration: none;
@@ -17,6 +21,12 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.home {
+    color: rgba(52, 61, 70, 1);
+    font-weight: bold;
+    margin: 0px 0px 50px 0px;
 }
 
 form {
