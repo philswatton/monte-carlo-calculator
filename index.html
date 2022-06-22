@@ -3,7 +3,7 @@
     <head>
         <!-- Basics -->
         <meta charset="utf-8">
-        <title>Unsure Calculator</title>
+        <title>Monte Carlo Calculator</title>
     
         <!-- Mobile Friendly -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,11 +33,11 @@
     </head>
     <body>
         <main>
-            <h1 class="center">Unsure Calculator (Early Version)</h1>
+            <h1 class="center">Monte Carlo Calculator</h1>
             <a class="home center" href="https://philswatton.github.io/">Back to home</a>
 
             <form name="calculator" class="calculator center" id="calculator">
-                <input onKeyDown="limit()" value="15/4~6" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
+                <input onKeyDown="limit()" value="(1+1)*2" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
                 <p id="output"></p>
                 <div class="pad">
                     <button type="button" onclick="press('7')">7</button>
@@ -59,6 +59,9 @@
                     <button type="button" onclick="press('0')">0</button>
                     <span></span>
                     <button type="button" onclick="press('+')">+</button>
+                    <button type="button" onclick="press('(')">(</button>
+                    <button type="button" onclick="press(')')">)</button>
+                    <button type="button" onclick="press('^')">^</button>
                     <button type="button" id="equals">=</button>
                 </div>
             </form>

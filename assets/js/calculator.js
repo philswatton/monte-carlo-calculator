@@ -1,11 +1,11 @@
 // Step 1: Limit Character Input
-const reLimit = /[0-9\+\-\*\/~\.]|Backspace|ArrowLeft|ArrowRight/;
+const reLimit = /[0-9\+\-\*\/~\.\(\)\^]|Backspace|ArrowLeft|ArrowRight| /;
 function limit() {
     var e = event || window.event;  // get event object
     var key = e.key; //get key
 
-    // console.log(key);
-    // console.log(re.test(key))
+    //console.log(key);
+    //console.log(re.test(key))
 
     if (!reLimit.test(key)) {
         //Prevent default action, which is inserting character
@@ -40,13 +40,14 @@ function tokenise(f) {
     // Output array
     let tokens=[];
 
-    // Split formula into characters
-    chars=f.split("");
+    // Split formula into characters, remove all whitespace
+    chars=f.replace(/ /g,"").split("");
+    console.log(chars);
 
     // Loop over characters, constructing numbers and operators
     let j = 0; //index for output
     for (let i = 0; i < chars.length; i++) {
-        test = isDigit(chars[i])
+        test = isDigit(chars[i]);
         if (test) {
             if (tokens.length == j) {
                 tokens.push(chars[i]);
@@ -71,33 +72,72 @@ function tokenise(f) {
 // Parse:
 // Convert tokens array to RPN (Reverse Polish Notation)
 // Use the shunting yard algorithm (simplified by lack of paranetheses)
+
+// Functions to establish token type
 function isOperator(token) {
-    return(/^(\+|\-|\*|\/)$/.test(token));
+    return(/^(\+|\-|\*|\/\^)$/.test(token));
 }
-function opPrecedence(op) {
-    // console.log(/\*/.test(op));
-    if (/\*|\//.test(op)) {
-        return(1);
-    } else {
-        return(0);
-    }
+function isBracket(token){
+    return(/^(\(|\))$/.test(token));
 }
+function tokenType(token) {
+    if (isOperator(token)) return("operator");
+    if (isBracket(token)) return("bracket");
+    return("number");
+}
+
+// Functions for checking precedence and associativity
+let operators = ["+", "-", "*", "/", "^"]
+let precedence = [0, 0, 1, 1, 2]
+let associativity = ["left", "left", "left", "left", "right"]
+function opPrecedence(token) {return(precedence[operators.indexOf(token)]);}
+function opAssociativity(token) {return(associativity[operators.indexOf(token)]);}
+
+// Shunting yard algorithm - parse infix notation to RPN
 function parse(tokens) {
 
-    // Queue and Stack
+    // Output queue and operator stack
     const outQueue = [];
     const opStack = [];
+    let t = "";
+    let type = "";
 
-    // Simplified Shunting Yard Algo
+    // Shunting Yard Algo
     for (let i = 0; i < tokens.length; i++) {
-        if (isOperator(tokens[i])) {
-            if ((opPrecedence(tokens[i]) <= opPrecedence(opStack[0])) && opStack.length > 0) {
-                outQueue.push(opStack.shift());
+
+        // Prepare token and verify type
+        t = tokens[i];
+        type = tokenType(t);
+        
+        if (type == "number") {
+            outQueue.push(t); //if number, push to queue
+        } else if (type == "operator") {
+            while (opStack.length > 0) {
+                if (opPrecedence(t) < opPrecedence(opStack[0])) {
+                    outQueue.push(opStack.shift());
+                } else if (opAssociativity(t) == "left" && (opPrecedence(t) <= opPrecedence(opStack[0]))) {
+                    outQueue.push(opStack.shift());
+                } else {
+                    break;
+                }
             }
-            opStack.unshift(tokens[i]);
+            opStack.unshift(t); //add operator to stack
         } else {
-            outQueue.push(tokens[i]);
+            if (t == "(") {
+                opStack.unshift(t); //add bracket to stack
+            } else {
+                while(opStack.length > 0) {
+                    if (opStack[0] != "(") {
+                        outQueue.push(opStack.shift());
+                    } else {
+                        opStack.shift();
+                        break;
+                    }
+                }
+            }
+            
         }
+
     }
     let l = opStack.length;
     if (l > 0) {
@@ -246,7 +286,7 @@ function del() {
 
 // Wrapper function
 function calculate(f) {
-    validf = validate(f);
+    validf = validate(f); //come back to this
     tokens = tokenise(validf);
     rpn = parse(tokens);
     vector = MCeval(rpn);
