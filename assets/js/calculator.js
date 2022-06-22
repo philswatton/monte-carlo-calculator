@@ -42,7 +42,6 @@ function tokenise(f) {
 
     // Split formula into characters, remove all whitespace
     chars=f.replace(/ /g,"").split("");
-    console.log(chars);
 
     // Loop over characters, constructing numbers and operators
     let j = 0; //index for output
@@ -68,11 +67,7 @@ function tokenise(f) {
             tokens[j+1] = chars[i];
             j+=2;
         }
-        console.log(j);
-        console.log(tokens);
     }
-
-    console.log(tokens);
 
     // Return
     return(tokens);
@@ -84,7 +79,7 @@ function tokenise(f) {
 // Use the shunting yard algorithm (simplified by lack of paranetheses)
 
 // Functions to establish token type
-function isOperator(token) {return(/^(\+|\-|\*|\/\^)$/.test(token));}
+function isOperator(token) {return(/^(\+|\-|\*{1,2}|\/|\^)$/.test(token));}
 function isBracket(token){return(/^(\(|\))$/.test(token));}
 function tokenType(token) {
     if (isOperator(token)) return("operator");
@@ -161,7 +156,7 @@ function parse(tokens) {
 // Step 3: Run monte carlo simulation
 
 // number of simulations - in future possibly allow user to specify
-const N = 10000;//250000;
+const N = 100;//10000;//250000;
 
 // Convert ranges to values array
 function norm(range) {
@@ -195,8 +190,13 @@ function isRange(token) {
 }
 function MCeval(RPN) {
 
+    console.log(RPN);
+
     // Prepare arrays for MC evaluation
     const l = RPN.length;
+    for (let i = 0; i<l; i++) {
+        if (RPN[i] == "^") RPN[i] = "**";
+    }
     const rIndex = [];
     let rArrays = [];
     let test = false;
@@ -228,6 +228,7 @@ function MCeval(RPN) {
                 var y = evalStack.pop();
                 evalStack.push(eval(y + RPN[j] + x));
             }
+            //console.log(evalStack);
         }
         out.push(evalStack[0]);
     }
@@ -296,6 +297,7 @@ function calculate(f) {
     tokens = tokenise(validf);
     rpn = parse(tokens);
     vector = MCeval(rpn);
+    console.log(vector);
 
     q1 = quantile(vector, 0.025);
     q2 = quantile(vector, 0.975);
