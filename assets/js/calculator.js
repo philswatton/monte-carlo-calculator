@@ -47,9 +47,9 @@ function tokenise(f) {
     // Loop over characters, constructing numbers and operators
     let j = 0; //index for output
     for (let i = 0; i < chars.length; i++) {
-        test = isDigit(chars[i]);
+        test = isDigit(chars[i]); //check if character is a number
         if (test) {
-            if (tokens.length == j) {
+            if (tokens.length == j) { //if it's a number, create unique and 
                 tokens.push(chars[i]);
             } else {
                 tokens[j] = tokens[j] + chars[i];
@@ -58,11 +58,21 @@ function tokenise(f) {
             tokens[j] = tokens[j] + chars[i];
         } else if ((i == 0 | /\+|\-|\*|\//.test(chars[i-1])) & chars[i] == "-") {
             tokens[j] = chars[i];
+        } else if (chars[i]=="(") {
+            tokens.push(chars[i]);
+            j = tokens.length;
+        } else if (chars[i] == ")") {
+            tokens[j+1] = chars[i];
+            j+=1;
         } else {
             tokens[j+1] = chars[i];
             j+=2;
         }
+        console.log(j);
+        console.log(tokens);
     }
+
+    console.log(tokens);
 
     // Return
     return(tokens);
@@ -74,12 +84,8 @@ function tokenise(f) {
 // Use the shunting yard algorithm (simplified by lack of paranetheses)
 
 // Functions to establish token type
-function isOperator(token) {
-    return(/^(\+|\-|\*|\/\^)$/.test(token));
-}
-function isBracket(token){
-    return(/^(\(|\))$/.test(token));
-}
+function isOperator(token) {return(/^(\+|\-|\*|\/\^)$/.test(token));}
+function isBracket(token){return(/^(\(|\))$/.test(token));}
 function tokenType(token) {
     if (isOperator(token)) return("operator");
     if (isBracket(token)) return("bracket");
