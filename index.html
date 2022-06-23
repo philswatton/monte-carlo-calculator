@@ -31,64 +31,44 @@
         <script src="assets/js/calculator.js"></script>
 
     </head>
-    <body>
-        <main>
-            <h1 class="center">Monte Carlo Calculator</h1>
-            <a class="home center" href="https://philswatton.github.io/">Back to home</a>
+        <body>
+            <main>
+                <h1 class="center">Monte Carlo Calculator</h1>
+                <a class="home center" href="https://philswatton.github.io/">Back to home</a>
+                <a class="home center" href="about.html">About</a>
 
-            <form name="calculator" class="calculator center" id="calculator">
-                <input onKeyDown="limit()" value="3^(2~4)" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
-                <p id="output"></p>
-                <div class="pad">
-                    <button type="button" onclick="press('7')">7</button>
-                    <button type="button" onclick="press('8')">8</button>
-                    <button type="button" onclick="press('9')">9</button>
-                    <button type="button" onclick="press('+')">+</button>
-                    <button type="button" onclick="press('-')">-</button>
-                    <button type="button" onclick="press('4')">4</button>
-                    <button type="button" onclick="press('5')">5</button>
-                    <button type="button" onclick="press('6')">6</button>
-                    <button type="button" onclick="press('*')">x</button>
-                    <button type="button" onclick="press('/')">÷</button>
-                    <button type="button" onclick="press('1')">1</button>
-                    <button type="button" onclick="press('2')">2</button>
-                    <button type="button" onclick="press('3')">3</button>
-                    <button type="button" onclick="press('^')">^</button>
-                    <button type="button" onclick="press('.')">.</button>
-                    <span></span>
-                    <button type="button" onclick="press('0')">0</button>
-                    <span></span>
-                    <button type="button" onclick="press('(')">(</button>
-                    <button type="button" onclick="press(')')">)</button>
-                    <span></span>
-                    <button type="button" onclick="press('~')">~</button>
-                    <span></span>
-                    <button type="button" onclick="del()">DEL</button>
-                    <button type="button" id="equals">=</button>
+
+                <form name="calculator" class="calculator center" id="calculator">
+                    <input onKeyDown="limit()" value="3^(2~4)" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
+                    <p id="output"></p>
+                    <div class="pad">
+                        <button type="button" onclick="press('7')">7</button>
+                        <button type="button" onclick="press('8')">8</button>
+                        <button type="button" onclick="press('9')">9</button>
+                        <button type="button" onclick="press('+')">+</button>
+                        <button type="button" onclick="press('-')">-</button>
+                        <button type="button" onclick="press('4')">4</button>
+                        <button type="button" onclick="press('5')">5</button>
+                        <button type="button" onclick="press('6')">6</button>
+                        <button type="button" onclick="press('*')">x</button>
+                        <button type="button" onclick="press('/')">÷</button>
+                        <button type="button" onclick="press('1')">1</button>
+                        <button type="button" onclick="press('2')">2</button>
+                        <button type="button" onclick="press('3')">3</button>
+                        <button type="button" onclick="press('^')">^</button>
+                        <button type="button" onclick="press('.')">.</button>
+                        <span></span>
+                        <button type="button" onclick="press('0')">0</button>
+                        <span></span>
+                        <button type="button" onclick="press('(')">(</button>
+                        <button type="button" onclick="press(')')">)</button>
+                        <span></span>
+                        <button type="button" onclick="press('~')">~</button>
+                        <span></span>
+                        <button type="button" onclick="del()">DEL</button>
+                        <button type="button" id="equals">=</button>
                 </div>
             </form>
-    
-            <h2>About</h2>
-    
-            <p>This webpage is a self-learning project aimed at replicating the functionality of <a href="https://filiph.net/">Filip Hráček</a>'s unsure calculator. You can access Filip's calculator at <a href="https://filiph.github.io/unsure/">this link</a>. If you already know how this works, the notation is the same: the tilde symbol (~) denotes a range. 4~6 is 4 to 6, and so on. The output maintains this notation. Hit the equals button to calculate and give it a moment.</p>
-    
-            <p>The basic idea is to facilitate performance of back-of-the-napkin calculations under conditions of uncertainty. More precisely, if you need to perform a calculation but have an uncertain quantity, you work out the range of values you're 95% sure the value will take on.</p>
-    
-            <p>To give a concrete example, if I want to divide 15 by \(x\), but I don't know the exact value of \(x\), I have a problem. Forunately, I'm 95% confident it lies somewhere between 4 and 6. So in the calculator I write 15/4~6 and produce a result giving me the range the output will probably be in.</p>
-    
-            <h2>Technical Explanation</h2>
-    
-            <p>A key component of Filip's idea is that it makes statistics' ability to quantify uncertainty immediately accessible to a non-technical audience. That means no messing around with choosing probability distributions - the calculator assumes a range specifies the 95% confidence range for a normally distributed variable; and doesn't allow inclusion of further information (e.g. capping the values at a certain point).</p>
-    
-            <p>The obvious disadvantages here are two-fold. First, the use of a normal distribution may not always be entirely appropriate. Second, the calculator can sometimes produce nonsensical values as it doesn't allow any constraints on the output. However, as Filip points out - if you're capable of something more sophisicated and need more than a quick calculation - there are more powerful tools already out there.</p>
-    
-            <p>Taking the above example of \(x/y \sim z\), for the range \(y \sim z\) the calculator first calculates the midpoint between \(y\) and \(z\) as the mean of the distribution, \(\mu\). It then calculates the standard deviation as \(\sigma = abs(y - \mu)/2\). The calculator then takes 10,000 draws from the normal distribution \(N \sim (\mu, \sigma)\) for each range.</p>
-    
-            <p>Once this has been done, the calculator performs a monte carlo calculation of the formula. In the present version of the calculator, it performs 10,000 simulations. I may change this number in future versions, or even allow the user to specify the number.</p>
-    
-            <p>In the current version of the calculator, only the 95% range of simulated values is presented. In future versions, I may also include a histogram and/or more detailed breakdown of the percentiles.</p>
-    
-        
         </main>
     </body>
 </html>
