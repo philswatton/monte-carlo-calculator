@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Basics -->
+        <meta charset="utf-8">
+        <title>Monte Carlo Calculator</title>
+    
+        <!-- Mobile Friendly -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--meta http-equiv="X-UA-Compatible" content="IE=edge"-->
+    
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="assets/css/site.css">
+    
+        <!-- Fonts -->
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=PT+Sans&family=PT+Sans+Narrow&family=PT+Serif&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+        </style>
+    
+        <!-- Mathjax -->
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    </head>
+    <body>
+        <main>
+            <h1 class="center">About: Monte Carlo Calculator</h1>
+            <a class="home center" href="https://philswatton.github.io/">Back to home</a>
+            <a class="home center" href="index.html">Back to calculator</a>
+
+            <h2>About</h2>
+    
+            <p>This webpage is a self-learning project aimed at replicating the functionality of <a href="https://filiph.net/">Filip Hráček</a>'s unsure calculator. You can access Filip's calculator at <a href="https://filiph.github.io/unsure/">this link</a>. If you already know how this works, the notation is the same: the tilde symbol (~) denotes a range. 4~6 is 4 to 6, and so on. The output maintains this notation. Hit the equals button to calculate and give it a moment.</p>
+    
+            <p>The basic idea is to facilitate performance of back-of-the-napkin calculations under conditions of uncertainty. More precisely, if you need to perform a calculation but have an uncertain quantity, you work out the range of values you're 95% sure the value will take on.</p>
+    
+            <p>To give a concrete example, if I want to divide 15 by \(x\), but I don't know the exact value of \(x\), I have a problem. Forunately, I'm 95% confident it lies somewhere between 4 and 6. So in the calculator I write 15/4~6 and produce a result giving me the range the output will probably be in.</p>
+    
+            <h2>Technical Explanation</h2>
+    
+            <p>A key component of Filip's idea is that it makes statistics' ability to quantify uncertainty immediately accessible to a non-technical audience. That means no messing around with choosing probability distributions - the calculator assumes a range specifies the 95% confidence range for a normally distributed variable; and doesn't allow inclusion of further information (e.g. capping the values at a certain point).</p>
+    
+            <p>The obvious disadvantages here are two-fold. First, the use of a normal distribution may not always be entirely appropriate. Second, the calculator can sometimes produce nonsensical values as it doesn't allow any constraints on the output. However, as Filip points out - if you're capable of something more sophisicated and need more than a quick calculation - there are more powerful tools already out there.</p>
+    
+            <p>Taking the above example of \(x/y \sim z\), for the range \(y \sim z\) the calculator first calculates the midpoint between \(y\) and \(z\) as the mean of the distribution, \(\mu\). It then calculates the standard deviation as \(\sigma = abs(y - \mu)/2\). The calculator then takes 10,000 draws from the normal distribution \(N \sim (\mu, \sigma)\) for each range.</p>
+    
+            <p>Once this has been done, the calculator performs a monte carlo calculation of the formula. In the present version of the calculator, it performs 10,000 simulations. I may change this number in future versions, or even allow the user to specify the number.</p>
+    
+            <p>In the current version of the calculator, only the 95% range of simulated values is presented. In future versions, I may also include a histogram and/or more detailed breakdown of the percentiles.</p>
+        </main>
+    </body>
+</html>
