@@ -156,7 +156,7 @@ function parse(tokens) {
 // Step 3: Run monte carlo simulation
 
 // number of simulations - in future possibly allow user to specify
-const N = 100;//10000;//250000;
+const N = 10000;//250000;
 
 // Convert ranges to values array
 function norm(range) {
@@ -189,8 +189,6 @@ function isRange(token) {
     return(/~/.test(token));
 }
 function MCeval(RPN) {
-
-    console.log(RPN);
 
     // Prepare arrays for MC evaluation
     const l = RPN.length;
@@ -297,7 +295,6 @@ function calculate(f) {
     tokens = tokenise(validf);
     rpn = parse(tokens);
     vector = MCeval(rpn);
-    console.log(vector);
 
     q1 = quantile(vector, 0.025);
     q2 = quantile(vector, 0.975);
