@@ -31,44 +31,46 @@
         <script src="assets/js/calculator.js"></script>
 
     </head>
-        <body>
-            <main>
-                <h1 class="center">Monte Carlo Calculator</h1>
-                <a class="home center" href="https://philswatton.github.io/">Back to home</a>
-                <a class="home center" href="about.html">About</a>
-
-
-                <form name="calculator" class="calculator center" id="calculator">
-                    <input onKeyDown="limit()" value="3^(2~4)" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
-                    <p id="output"></p>
-                    <div class="pad">
-                        <button type="button" onclick="press('7')">7</button>
-                        <button type="button" onclick="press('8')">8</button>
-                        <button type="button" onclick="press('9')">9</button>
-                        <button type="button" onclick="press('+')">+</button>
-                        <button type="button" onclick="press('-')">-</button>
-                        <button type="button" onclick="press('4')">4</button>
-                        <button type="button" onclick="press('5')">5</button>
-                        <button type="button" onclick="press('6')">6</button>
-                        <button type="button" onclick="press('*')">x</button>
-                        <button type="button" onclick="press('/')">÷</button>
-                        <button type="button" onclick="press('1')">1</button>
-                        <button type="button" onclick="press('2')">2</button>
-                        <button type="button" onclick="press('3')">3</button>
-                        <button type="button" onclick="press('^')">^</button>
-                        <button type="button" onclick="press('.')">.</button>
-                        <span></span>
-                        <button type="button" onclick="press('0')">0</button>
-                        <span></span>
-                        <button type="button" onclick="press('(')">(</button>
-                        <button type="button" onclick="press(')')">)</button>
-                        <span></span>
-                        <button type="button" onclick="press('~')">~</button>
-                        <span></span>
-                        <button type="button" onclick="del()">DEL</button>
-                        <button type="button" id="equals">=</button>
+    <body>
+        <header>
+            <h1 class="center">Monte Carlo Calculator</h1>
+            <a class="home center" href="https://philswatton.github.io/">Back to home</a>
+            <a class="home center" href="about.html">About</a>
+        </header>
+        <main>
+            <form name="calculator" class="calculator center" id="calculator">
+                <input onKeyDown="limit()" value="3^(2~4)" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
+                <div class="pad">
+                    <button type="button" onclick="press('7')">7</button>
+                    <button type="button" onclick="press('8')">8</button>
+                    <button type="button" onclick="press('9')">9</button>
+                    <button type="button" onclick="press('+')">+</button>
+                    <button type="button" onclick="press('-')">-</button>
+                    <button type="button" onclick="press('4')">4</button>
+                    <button type="button" onclick="press('5')">5</button>
+                    <button type="button" onclick="press('6')">6</button>
+                    <button type="button" onclick="press('*')">x</button>
+                    <button type="button" onclick="press('/')">÷</button>
+                    <button type="button" onclick="press('1')">1</button>
+                    <button type="button" onclick="press('2')">2</button>
+                    <button type="button" onclick="press('3')">3</button>
+                    <button type="button" onclick="press('^')">^</button>
+                    <button type="button" onclick="press('.')">.</button>
+                    <span></span>
+                    <button type="button" onclick="press('0')">0</button>
+                    <span></span>
+                    <button type="button" onclick="press('(')">(</button>
+                    <button type="button" onclick="press(')')">)</button>
+                    <span></span>
+                    <button type="button" onclick="press('~')">~</button>
+                    <span></span>
+                    <button type="button" onclick="del()">DEL</button>
+                    <button type="button" id="equals">=</button>
                 </div>
             </form>
+            <section class="output">
+                <p id="output"></p>
+            </section>
         </main>
     </body>
 </html>

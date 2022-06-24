@@ -1,17 +1,60 @@
+/* Defaults */
 :root {
     font-family: 'Karla', sans-serif;
     font-size: 16px;
     color: rgb(0, 0, 0);;
 }
 
-main {
-    position: absolute;
+
+/* Layout */
+body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 0px 20px 0px;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 1px solid rgb(237, 237, 237);
+    border-radius: 10px; */
+}
+
+.output {
+    width: 100%;
+    border: 1px solid rgb(237, 237, 237);
+    border-radius: 10px;
+}
+
+.center {
+    align-self: center;
+}
+
+
+/* Content */
 h1 {
-    margin: 0px 0px 0px 0px;
+    margin: 0px;
 }
 
 a {
@@ -26,32 +69,49 @@ a:hover {
 .home {
     color: rgba(52, 61, 70, 1);
     font-weight: bold;
-    margin: 0px 0px 50px 0px;
+    margin: 0px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+
+/* Calculator */
 
 .pad {
     display: grid;
     grid-template-columns: 40px 40px 40px 40px 40px;
+    padding: 2px;
+    border: 1px solid rgb(237, 237, 237);
+    border-radius: 10px;
 }
 
 #formula {
     font-family: 'Karla', sans-serif;
     font-size: 16px;
-    width: 192px;
+    width: 200px;
+    padding: 2px;
+    margin: 0px;
+    border: 1px solid rgb(237, 237, 237);
+    border-radius: 10px;
 }
 
-.center {
-    align-self: center;
+button {
+    width: 38px;
+    height: 38px;
+    padding: 0px;
+    margin: 1px;
+    border: none;
+    border-radius: 10px;
 }
+
+button:hover {
+    border: 1px solid black;
+}
+
+
+/* Output window */
+
 
 /* Media Queries */
-@media screen and (min-width: 920px) {
+/* @media screen and (min-width: 920px) {
     main {
         left: 25%;
         width: 50%;
@@ -63,4 +123,4 @@ form {
         left: 30%;
         width: 40%;
     }
-}
+} */
