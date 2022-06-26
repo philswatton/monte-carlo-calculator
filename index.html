@@ -14,10 +14,7 @@
     
         <!-- Fonts -->
         <style>
-          @import url('https://fonts.googleapis.com/css2?family=PT+Sans&family=PT+Sans+Narrow&family=PT+Serif&display=swap');
-        </style>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Arvo&family=Roboto&family=Roboto+Mono:wght@300&display=swap');
         </style>
     
         <!-- Mathjax -->
@@ -25,7 +22,7 @@
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
         <!-- d3.js -->
-        <script src="https://d3js.org/d3.v4.js"></script>
+        <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
     
         <!-- Calculator Script -->
         <script src="assets/js/calculator.js"></script>
@@ -40,6 +37,7 @@
         <main>
             <form name="calculator" class="calculator center" id="calculator">
                 <input onKeyDown="limit()" value="3^(2~4)" name="formula" id="formula"><!--22--4.4~6+400-10~20*5-->
+                <br>
                 <div class="pad">
                     <button type="button" onclick="press('7')">7</button>
                     <button type="button" onclick="press('8')">8</button>
@@ -69,6 +67,10 @@
                 </div>
             </form>
             <section class="output">
+                <div id="vis-panel">
+                    <svg id="histogram">
+                    </svg>
+                </div>
                 <p id="output"></p>
             </section>
         </main>
