@@ -156,7 +156,7 @@ function parse(tokens) {
 // Step 3: Run monte carlo simulation
 
 // number of simulations - in future possibly allow user to specify
-const N = 1000;//10000;//250000;
+const N = 10000;//250000;
 
 // Convert ranges to values array
 function norm(range) {
@@ -231,14 +231,7 @@ function MCeval(RPN) {
         out.push(evalStack[0]);
     }
 
-    // for (let i=0; i<RPN.length; i++) {
-    //     if (!isOperator(RPN[i])) {
-    //         evalStack.push(RPN[i])
-    //     } else {
-    //         evalStack.push(eval(evalStack.pop() + RPN[i] + evalStack.pop()));
-    //     }
-    // }
-
+    // Return
     return(out);
 }
 
