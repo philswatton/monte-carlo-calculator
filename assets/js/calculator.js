@@ -156,7 +156,7 @@ function parse(tokens) {
 // Step 3: Run monte carlo simulation
 
 // number of simulations - in future possibly allow user to specify
-const N = 10000;//250000;
+const N = 1000;//10000;//250000;
 
 // Convert ranges to values array
 function norm(range) {
@@ -246,15 +246,29 @@ function MCeval(RPN) {
 
 // Step 4: Present simulation results
 
+// Sum function
+function count(x) {
+    let sum = 0;
+    for (let i=0; i<x.length; i++) {
+        sum += x[i];
+    }
+    return(sum);
+}
+
+// Arithmetic mean function
+function mean(x) {
+    let sum = count(x);
+    return(sum / x.length);
+}
+
 // Quantile function: R-8 https://en.wikipedia.org/wiki/Quantile#Estimating_quantiles_from_a_sample
 function quantile(x, p) {
     const N = x.length;
-    const h = Math.floor((N + (1/3))*p); //removing +1 because 0-indexing
-    // console.log(h);
+    const h = (N + (1/3))*p + 1/3 - 1; //-1 for 0-indexing
+    let vec = x.sort((a,b)=>a-b)
+    const q = vec[Math.floor(h)] + (h - Math.floor(h)) * (vec[Math.ceil(h)] - vec[Math.floor(h)]);
 
-    vec = x.sort((a,b)=>a-b)
-
-    return(vec[h]);
+    return(q);
 }
 
 // Function to build a range from two quantiles
@@ -275,21 +289,84 @@ function printResult(str) {
 
 
 // TODO: Histogram function
-window.onload = function () {
 
-    var dataset = [80, 100, 56, 72, 85];
-    var svgWidth = 200, barHeight = 20, barPadding = 1, svgHeight=barHeight*dataset.length;
+// round function
+function round (x, n) {
+    return(Math.round(x * 10**n)/10**n);
+}
 
-    var svg = document.getElementById('histogram');
+// Histogram unction
+histogram = function (x) {
+
+    // Plot object
+    let svg = document.getElementById('histogram');
+
+    // Remove old plot children
+    while (svg.firstChild) {
+        svg.removeChild(svg.firstChild);
+    }
+
+    // Plot variables
+    const nbin = 20;
+    const svgWidth = 400, barHeight = 20, svgHeight=barHeight*nbin;
+
+    // Set plot dimensions
     svg.setAttribute("width", svgWidth);
     svg.setAttribute("height", svgHeight);
 
-    for(let i = 0; i < dataset.length; i++){
+    // Min, max, range, bin-width
+    const xmin = Math.min.apply(null,x);
+    const xmax = Math.max.apply(null,x);
+    const xrange = xmax-xmin;
+    const binWidth = xrange/nbin;
+
+    // Calculate counts and mean of data going into each bin
+    // Values are left inclusive and right exclusive (except last, which is also right inclusive)
+    let props = [];
+    let means = [];
+    let labels = [];
+    let temp = [];
+    let b = xmin; //bottom of the bin
+    let t = xmin + binWidth; //top of the bin
+    for (let i=0; i<nbin; i++) {
+
+        // Subset the input array
+        if (i == (nbin-1)) { 
+            temp = x.filter(function(x) {
+                return x >= b && x <= t
+            });
+        } else { 
+            temp = x.filter(function(x) {
+                return x >= b && x <t
+            });
+        }
+
+        // calculate mean
+        means[i] = mean(temp);
+        props[i] = temp.length / x.length;
+
+        // Name label
+        if (i == 0) {
+            labels[i] = "<" + round(t,1);
+        } else if (i == (nbin-1)) {
+            labels[i] = ">=" + round(b,1);
+        } else {
+            labels[i] = round(b,1) + "-" + round(t,1);
+        }
+
+        // Update
+        b += binWidth;
+        t += binWidth;
+
+    }
+
+    // Add bars
+    for(let i = 0; i < props.length; i++){
         var rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
         rect.setAttribute("y", barHeight*i);
         rect.setAttribute("x", 0);
-        rect.setAttribute("height", barHeight-barPadding);
-        rect.setAttribute("width", dataset[i]);
+        rect.setAttribute("height", barHeight);
+        rect.setAttribute("width", props[i]*svgWidth);
         svg.appendChild(rect);
     }
 }
@@ -313,16 +390,20 @@ function calculate(f) {
     tokens = tokenise(validf);
     rpn = parse(tokens);
     vector = MCeval(rpn);
-
+    
+    // Output 1: range
     q1 = quantile(vector, 0.025);
     q2 = quantile(vector, 0.975);
-
     range = makeRange(q1, q2);
-
     if (range[1]) {
         printResult(range[0]);
     } else {
         printResult("No ranges included: " + range[0]);
+    }
+
+    // Output 2: histogram
+    if (range[1]) {
+        histogram(vector);
     }
 
 }
