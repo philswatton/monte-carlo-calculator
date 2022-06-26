@@ -111,6 +111,13 @@ button:hover {
 
 svg rect {
     fill: orange;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+svg text {
+    font-family: monospace;
+    font-size: 12px;
 }
 
 
