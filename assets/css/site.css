@@ -43,8 +43,33 @@ form {
 
 .output {
     width: 100%;
-    border: 1px solid rgb(237, 237, 237);
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid rgb(237, 237, 237); */
+    /* border-radius: 10px; */
+}
+
+.output-numbers{
+    margin: 20px 0px 20px 0px;
+}
+
+.output-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0px;
+    padding: 0px;
+}
+
+.output-div p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.output-div .output-label {
+    margin: 0px 10px 0px 0px;
 }
 
 .center {
@@ -111,7 +136,7 @@ button:hover {
 
 .vis-panel {
     padding: 10px;
-    border: 1px solid black;
+    border: 1px solid rgb(237, 237, 237);;
     border-radius: 10px;
 }
 
