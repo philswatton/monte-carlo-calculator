@@ -31,6 +31,14 @@ main {
     align-items: center;
 }
 
+.about {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 
 form {
     width: 100%;
@@ -184,18 +192,38 @@ svg text {
 
 /* Media Queries */
 @media screen and (min-width: 920px) {
+
+    form, .output {
+        width: auto;
+    }
+
+    form {
+        margin-right: 40px;
+    }
+
     .vis-panel, svg {
         width: 600px;
     }
-    /* main {
+
+    main {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .output {
+        align-items: flex-start;
+    }
+
+    .about {
         left: 25%;
         width: 50%;
-    } */
+    }
 }
 
-/* @media screen and (min-width: 1500px) {
-    main {
+@media screen and (min-width: 1500px) {
+    .about {
         left: 30%;
         width: 40%;
     }
-} */
+}
