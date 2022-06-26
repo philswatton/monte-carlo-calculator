@@ -275,6 +275,24 @@ function printResult(str) {
 
 
 // TODO: Histogram function
+window.onload = function () {
+
+    var dataset = [80, 100, 56, 72, 85];
+    var svgWidth = 200, barHeight = 20, barPadding = 1, svgHeight=barHeight*dataset.length;
+
+    var svg = document.getElementById('histogram');
+    svg.setAttribute("width", svgWidth);
+    svg.setAttribute("height", svgHeight);
+
+    for(let i = 0; i < dataset.length; i++){
+        var rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        rect.setAttribute("y", barHeight*i);
+        rect.setAttribute("x", 0);
+        rect.setAttribute("height", barHeight-barPadding);
+        rect.setAttribute("width", dataset[i]);
+        svg.appendChild(rect);
+    }
+}
 
 
 
