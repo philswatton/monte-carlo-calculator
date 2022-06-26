@@ -155,11 +155,9 @@ function parse(tokens) {
 
 // Step 3: Run monte carlo simulation
 
-// number of simulations - in future possibly allow user to specify
-const N = 10000;//250000;
-
 // Convert ranges to values array
-function norm(range) {
+function norm(range, N) {
+
     // Output array
     let out = [];
 
@@ -188,7 +186,7 @@ function norm(range) {
 function isRange(token) {
     return(/~/.test(token));
 }
-function MCeval(RPN) {
+function MCeval(RPN, N) {
 
     // Prepare arrays for MC evaluation
     const l = RPN.length;
@@ -202,7 +200,7 @@ function MCeval(RPN) {
         test = isRange(RPN[i]);
         rIndex.push(test);
         if (test) {
-            rArrays.push(norm(RPN[i]));
+            rArrays.push(norm(RPN[i], N));
         }
     }
     
@@ -383,10 +381,14 @@ function del() {
 
 // Wrapper function
 function calculate(f) {
+
+    // Set N
+    let N = document.getElementById("draws").value;
+
     validf = validate(f); //come back to this
     tokens = tokenise(validf);
     rpn = parse(tokens);
-    vector = MCeval(rpn);
+    vector = MCeval(rpn, N);
     
     // Output 1: text
     m = mean(vector);
