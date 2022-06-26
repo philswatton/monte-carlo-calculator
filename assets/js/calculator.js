@@ -283,8 +283,9 @@ function makeRange(q1, q2) {
 }
 
 // Text output function
-function printResult(str) {
-    document.getElementById('output').innerHTML = str;
+function printResult(mean, range) {
+    document.getElementById('output-mean').innerHTML = mean;
+    document.getElementById('output-range').innerHTML = range;
 }
 
 
@@ -394,14 +395,15 @@ function calculate(f) {
     rpn = parse(tokens);
     vector = MCeval(rpn);
     
-    // Output 1: range
+    // Output 1: text
+    m = mean(vector);
     q1 = quantile(vector, 0.025);
     q2 = quantile(vector, 0.975);
     range = makeRange(q1, q2);
     if (range[1]) {
-        printResult(range[0]);
+        printResult(round(m,1), range[0]);
     } else {
-        printResult("No ranges included: " + range[0]);
+        printResult(round(vector[0],1), "No ranges included: " + range[0]);
     }
 
     // Output 2: histogram
