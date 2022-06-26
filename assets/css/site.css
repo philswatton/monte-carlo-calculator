@@ -41,6 +41,10 @@ form {
     border-radius: 10px; */
 }
 
+
+
+/* Output */
+
 .output {
     width: 100%;
     display: flex;
@@ -81,6 +85,7 @@ form {
 }
 
 
+
 /* Content */
 h1 {
     margin: 0px;
@@ -112,14 +117,31 @@ a:hover {
     border-radius: 10px;
 }
 
-#formula {
-    font-family: 'Karla', sans-serif;
+input {
+    font-family: 'Arvo', serif;
     font-size: 16px;
-    width: 200px;
     padding: 2px;
     margin: 0px;
     border: 1px solid rgb(237, 237, 237);
     border-radius: 10px;
+}
+
+#formula {
+    font-size: 16px;
+    width: 200px;
+}
+
+.draw-div {
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+
+#draws {
+    width: 100px;
+    text-align: right;
 }
 
 button {
