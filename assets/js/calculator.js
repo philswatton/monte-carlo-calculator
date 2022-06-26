@@ -367,7 +367,7 @@ histogram = function (x) {
         svg.appendChild(rect);
 
         var label = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-        label.setAttribute("y", barHeight*i - 5);
+        label.setAttribute("y", barHeight*i + 15);
         label.setAttribute("x", 0);
         label.innerHTML = labels[i];
         svg.appendChild(label);

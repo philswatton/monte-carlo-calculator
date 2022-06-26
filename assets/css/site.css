@@ -109,6 +109,16 @@ button:hover {
 
 /* Output window */
 
+.vis-panel {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.vis-panel, svg {
+    width: 400px;
+}
+
 svg rect {
     fill: orange;
     stroke: black;
@@ -122,14 +132,17 @@ svg text {
 
 
 /* Media Queries */
-/* @media screen and (min-width: 920px) {
-    main {
+@media screen and (min-width: 920px) {
+    .vis-panel, svg {
+        width: 600px;
+    }
+    /* main {
         left: 25%;
         width: 50%;
-    }
+    } */
 }
 
-@media screen and (min-width: 1500px) {
+/* @media screen and (min-width: 1500px) {
     main {
         left: 30%;
         width: 40%;
