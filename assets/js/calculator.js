@@ -307,12 +307,9 @@ histogram = function (x) {
     }
 
     // Plot variables
+    const svgWidth = svg.getBoundingClientRect().width - 100;
     const nbin = 20;
-    const svgWidth = 400, barHeight = 20, svgHeight=barHeight*nbin;
-
-    // Set plot dimensions
-    svg.setAttribute("width", svgWidth);
-    svg.setAttribute("height", svgHeight);
+    const barHeight = 20;
 
     // Min, max, range, bin-width
     const xmin = Math.min.apply(null,x);
@@ -364,10 +361,16 @@ histogram = function (x) {
     for(let i = 0; i < props.length; i++){
         var rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
         rect.setAttribute("y", barHeight*i);
-        rect.setAttribute("x", 0);
+        rect.setAttribute("x", 100);
         rect.setAttribute("height", barHeight);
         rect.setAttribute("width", props[i]*svgWidth);
         svg.appendChild(rect);
+
+        var label = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        label.setAttribute("y", barHeight*i - 5);
+        label.setAttribute("x", 0);
+        label.innerHTML = labels[i];
+        svg.appendChild(label);
     }
 }
 
