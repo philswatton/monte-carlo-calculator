@@ -403,12 +403,20 @@ function calculate(f) {
     if (range[1]) {
         printResult(round(m,1), range[0]);
     } else {
-        printResult(round(vector[0],1), "No ranges included: " + range[0]);
+        printResult(round(vector[0],1), "No ranges included");
     }
 
     // Output 2: histogram
     if (range[1]) {
         histogram(vector);
+    } else {
+        // Plot object
+        let svg = document.getElementById('histogram');
+
+        // Remove old plot children
+        while (svg.firstChild) {
+            svg.removeChild(svg.firstChild);
+        }
     }
 
 }
